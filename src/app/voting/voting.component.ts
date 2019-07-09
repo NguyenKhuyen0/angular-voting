@@ -1,4 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
+
+import { Question } from '../question';
+import { QuestionService } from '../question.service';
+import { Option } from '../option';
 
 @Component({
   selector: 'app-voting',
@@ -6,10 +12,35 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./voting.component.css']
 })
 export class VotingComponent implements OnInit {
+  @Input() question: Question;
+  @Input() options : Array<Option>;
+  constructor(
+    private route: ActivatedRoute,
+    private questionService: QuestionService,
+    private location: Location
+    ) { }
 
-  constructor() { }
-
-  ngOnInit() {
+  ngOnInit(): void {
+    this.getQuestion();
   }
 
+  getQuestion(): void {
+    const id = +this.route.snapshot.paramMap.get('id');
+    this.questionService.getQuestion(id)
+      .subscribe(question => {this.question = question; this.options = question.options});
+  }
+  
+//  save(): void {
+//     this.questionService.updateQuestion(this.question)
+//         .subscribe(() => this.goBack());
+//   }
+//   goBack(): void {
+//     this.location.back();
+//   }
+  vote(i, votes):void{
+    this.question.options[i].votes = votes + 1;
+    this.questionService.updateQuestion(this.question);
+    
+    // .subscribe(() => this.goBack());
+  }
 }

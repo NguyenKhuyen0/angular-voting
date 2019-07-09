@@ -1,7 +1,9 @@
+import { Option } from './option';
+
 export class Question
 {
     id : string;
     question : string;
-    voting_id : string;
+    options : Array<Option>;
     active : string;
 }

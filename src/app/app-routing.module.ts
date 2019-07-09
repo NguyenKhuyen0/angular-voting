@@ -6,9 +6,9 @@ import { QuestionComponent }      from './question/question.component';
 
 
 const routes: Routes = [
-  { path: '', component: VotingComponent },
-  { path: 'voting', component: VotingComponent },
-  { path: 'question', component: QuestionComponent },
+  // { path: '', component: VotingComponent },
+  // { path: 'voting', component: VotingComponent },
+  { path: 'question/:id', component: QuestionComponent },
 
 ];
 @NgModule({

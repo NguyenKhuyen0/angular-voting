@@ -1,3 +1,12 @@
-<p>
-  question works!
-</p>
+<div *ngIf="question">
+  <h2>Question {{question.question | uppercase}}</h2>
+
+  <ul class="questions">
+      <li *ngFor="let option of question.options; let i = index">
+        {{option.title}} <br>
+        Votes: {{option.votes}}
+        <button (click)="vote( i ,option.votes)">Vote</button>
+      </li>
+
+  </ul>
+</div>
