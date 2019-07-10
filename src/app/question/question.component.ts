@@ -2,10 +2,11 @@ import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
-import { Question } from '../question';
-import { QuestionService } from '../question.service';
-import { Option } from '../option';
-import { UserService } from '../user.service';
+import { Question } from '../model/question';
+import { QuestionService } from './question.service';
+import { Option } from '../model/option';
+import { UserService } from '../user/user.service';
+import { OptionService } from '../option/option.service';
 
 
 @Component({
@@ -21,12 +22,13 @@ export class QuestionComponent implements OnInit {
     private route: ActivatedRoute,
     private questionService: QuestionService,
     private location: Location,
+    private optionService: OptionService
     ) { }
 
   ngOnInit(): void {
     this.getQuestion();
-   
-    this.userService.logIn();
+    console.log(this.userService.userID());
+    // this.userService.logIn();
   }
 
   getQuestion(): void {
@@ -44,7 +46,7 @@ export class QuestionComponent implements OnInit {
 //   }
   vote(i, votes):void{
     this.question.options[i].votes = votes + 1;
-    this.questionService.updateQuestion(this.question);
+    this.optionService.updateOption(this.question.options[i]);
     // console.log(this.userService.isLogin());
     // .subscribe(() => this.goBack());
   }

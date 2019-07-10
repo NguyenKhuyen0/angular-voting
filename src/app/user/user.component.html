@@ -1,0 +1,22 @@
+<a *ngIf="!isLogin" href="javascript:void(0)" data-target="account"
+    class="sidenav-trigger btn-user show-on-small waves-effect waves-light" (click)="userService.logIn()">
+    <img src="../../assets/images/user.svg" alt="User">
+</a>
+<div *ngIf="isLogin" class="wrapper-account-dropdown" [ngClass]="{'active': dropdown}"
+    (click)="dropdown = !dropdown" (clickOutside)="dropdownStatus()">
+    <a href="javascript:void(0)" class="btn-account">
+        <img [src]="avatar">
+    </a>
+    <div class="account-menu-dropdown">
+        <ul class="info-account">
+            <li><span>Xin chào,</span><br>{{user.lastName}} {{user.firstName}}</li>
+            <li>
+                <a href="javascript:void(0)" (click)="userService.openUserPanel()">Thông tin cá nhân</a>
+            </li>
+            <li>
+                <a (click)="userService.logOut()">Thoát</a>
+            </li>
+        </ul>
+    </div>
+</div>
+

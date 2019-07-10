@@ -12,19 +12,21 @@ import { OptionComponent } from './option/option.component';
 import { QuestionComponent } from './question/question.component';
 import { VotingComponent } from './voting/voting.component';
 import { AppRoutingModule } from './app-routing.module';
-import { UserService } from './user.service';
+import { UserService } from './user/user.service';
 
 
 
 
 import { KeycloakService } from 'keycloak-angular';
 import { KcService, KcServiceInit } from "./initilizer";
+import { UserComponent } from './user/user.component';
 @NgModule({
   declarations: [
     AppComponent,
     OptionComponent,
     QuestionComponent,
-    VotingComponent
+    VotingComponent,
+    UserComponent
   ],
   imports: [
     BrowserModule,

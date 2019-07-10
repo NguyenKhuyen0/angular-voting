@@ -1,41 +1,34 @@
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-
+import { MessageService } from '../message.service';
+import { Option } from '../model/option';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
-import { Question } from './question';
-import { MessageService } from './message.service';
+
+import { Injectable } from '@angular/core';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
 
-@Injectable({ providedIn: 'root' })
+@Injectable({
+  providedIn: 'root'
+})
+export class OptionService {
 
-export class VotingService {
-
-  private questionsUrl = 'api/voting';  // URL to web api
+  private optionsUrl = 'api/options';  // URL to web api
 
   constructor(
     private http: HttpClient,
-    private messageService: MessageService) { }
-
-  /** GET Question by id. Will 404 if id not found */
-  getVoting(id: number): Observable<Question> {
-    const url = `${this.questionsUrl}/${id}`;
-    return this.http.get<Question>(url).pipe(
-      tap(_ => this.log(`fetched question id=${id}`)),
-      catchError(this.handleError<Question>(`getQuestion id=${id}`))
+    private messageService: MessageService
+  ) { }
+  updateOption (option: Option): Observable<any> {
+    // console.log('update votes');
+    return this.http.put(this.optionsUrl, option, httpOptions).pipe(
+      tap(_ => this.log(`updated question id=${option.id}`)),
+      catchError(this.handleError<any>('updateQuestion'))
     );
   }
-
-  /**
-   * Handle Http operation that failed.
-   * Let the app continue.
-   * @param operation - name of the operation that failed
-   * @param result - optional value to return as the observable result
-   */
   private handleError<T> (operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
 
@@ -49,7 +42,6 @@ export class VotingService {
       return of(result as T);
     };
   }
-
   /** Log a QuestionService message with the MessageService */
   private log(message: string) {
     this.messageService.add(`QustionService: ${message}`);

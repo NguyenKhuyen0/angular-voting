@@ -2,7 +2,7 @@ import { Injectable, Inject, PLATFORM_ID } from "@angular/core"
 import { isPlatformBrowser } from "@angular/common"
 import { KeycloakService } from "keycloak-angular"
 
-import { environment } from "./environment"
+import { environment } from "../environment"
 import { throwError } from "rxjs";
 
 @Injectable()
@@ -20,6 +20,11 @@ export class UserService {
   userInfo() {
     if (this.isLogin)
       return this.kc.profile
+  }
+  userID()
+  {
+    if (this.isLogin)
+    return this.kc.subject
   }
 
   isLogin(): boolean {

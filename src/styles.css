@@ -129,3 +129,7 @@ h1 {
     font-family: Arial, Helvetica, sans-serif;
   }
   
+  .btn-account img
+{
+    max-width: 100px;
+}

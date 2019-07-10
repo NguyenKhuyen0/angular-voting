@@ -2,9 +2,9 @@ import { Component, OnInit, Input } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
-import { Question } from '../question';
-import { QuestionService } from '../question.service';
-import { Option } from '../option';
+import { Question } from '../model/question';
+import { QuestionService } from '../question/question.service';
+import { Option } from '../model/option';
 
 @Component({
   selector: 'app-voting',

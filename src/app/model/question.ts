@@ -5,5 +5,5 @@ export class Question
     id : string;
     question : string;
     options : Array<Option>;
-    active : string;
+    active : boolean;
 }

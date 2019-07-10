@@ -5,5 +5,5 @@ export class Voting
     id : string;
     title : string;
     options : Array<Question>;
-    active : string;
+    active : boolean;
 }
