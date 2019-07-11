@@ -26,6 +26,10 @@ export class UserService {
     if (this.isLogin)
     return this.kc.subject
   }
+  kcO()
+  {
+    return this.kc;
+  }
 
   isLogin(): boolean {
     if (this.checkToken())

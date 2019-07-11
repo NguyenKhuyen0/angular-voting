@@ -1,5 +1,5 @@
 import { BrowserModule  } from '@angular/platform-browser';
-import { HttpClientModule }    from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS  }    from '@angular/common/http';
 import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { FormsModule }    from '@angular/forms';
 
@@ -13,6 +13,7 @@ import { QuestionComponent } from './question/question.component';
 import { VotingComponent } from './voting/voting.component';
 import { AppRoutingModule } from './app-routing.module';
 import { UserService } from './user/user.service';
+import { TokenInterceptor } from './token.interceptor';
 
 
 
@@ -36,9 +37,9 @@ import { UserComponent } from './user/user.component';
         // The HttpClientInMemoryWebApiModule module intercepts HTTP requests
     // and returns simulated server responses.
     // Remove it when a real server is ready to receive requests.
-    HttpClientInMemoryWebApiModule.forRoot(
-      InMemoryDataService, { dataEncapsulation: false }
-    )
+    // HttpClientInMemoryWebApiModule.forRoot(
+    //   InMemoryDataService, { dataEncapsulation: false }
+    // )
   ],
   providers: [
     KeycloakService,
@@ -48,6 +49,11 @@ import { UserComponent } from './user/user.component';
         useFactory: KcServiceInit,
         deps: [KcService],
         multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
     },
     UserService
   ],

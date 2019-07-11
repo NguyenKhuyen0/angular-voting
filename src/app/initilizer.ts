@@ -59,6 +59,9 @@ export class KcService {
       }
     })
   }
+  getToken(): string {
+    return this.kc.token;
+  }
 
   async userInfo(){
     return await this.keycloak.loadUserProfile()

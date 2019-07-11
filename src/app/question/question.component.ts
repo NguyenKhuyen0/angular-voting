@@ -4,7 +4,6 @@ import { Location } from '@angular/common';
 
 import { Question } from '../model/question';
 import { QuestionService } from './question.service';
-import { Option } from '../model/option';
 import { UserService } from '../user/user.service';
 import { OptionService } from '../option/option.service';
 
@@ -16,7 +15,6 @@ import { OptionService } from '../option/option.service';
 })
 export class QuestionComponent implements OnInit {
   @Input() question: Question;
-  @Input() options : Array<Option>;
   constructor(
     private userService: UserService,
     private route: ActivatedRoute,
@@ -27,27 +25,22 @@ export class QuestionComponent implements OnInit {
 
   ngOnInit(): void {
     this.getQuestion();
-    console.log(this.userService.userID());
-    // this.userService.logIn();
+    // console.log( this.userService.kcO());
+   
   }
 
   getQuestion(): void {
     const id = +this.route.snapshot.paramMap.get('id');
     this.questionService.getQuestion(id)
-      .subscribe(question => {this.question = question; this.options = question.options});
+      .subscribe(question => {this.question = question;});
   }
-  
-//  save(): void {
-//     this.questionService.updateQuestion(this.question)
-//         .subscribe(() => this.goBack());
-//   }
-//   goBack(): void {
-//     this.location.back();
-//   }
+
   vote(i, votes):void{
     this.question.options[i].votes = votes + 1;
     this.optionService.updateOption(this.question.options[i]);
-    // console.log(this.userService.isLogin());
-    // .subscribe(() => this.goBack());
+  }
+  sendRequest():void{
+    console.log('AAAA')
+    this.questionService.getQuestions().subscribe(question => {});
   }
 }

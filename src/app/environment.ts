@@ -11,5 +11,9 @@ export const environment = {
     keycloak: keycloakConfig,
     SERVER: 'https://api.360life.vn/lostbird/',
     API: 'content/v1',
-    NO_ADS: [2]
+    NO_ADS: [2],
+    optionsUrlAPI: 'http://idesign.local:8000/api/v1/options',
+    questionsUrlAPI: 'http://idesign.local:8000/api/v1/questions',
+    votingUrlAPI: 'http://idesign.local:8000/api/v1/votings'
 }
+

@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import { Observable, of } from 'rxjs';
+import { Observable, of, from } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
 import { Question } from '../model/question';
 import { MessageService } from '../message.service';
+
+import { environment } from '../environment';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -14,7 +16,7 @@ const httpOptions = {
 @Injectable({ providedIn: 'root' })
 export class QuestionService {
 
-  private questionsUrl = 'api/questions';  // URL to web api
+  private questionsUrl = environment.questionsUrlAPI;  // URL to web api
 
   constructor(
     private http: HttpClient,
