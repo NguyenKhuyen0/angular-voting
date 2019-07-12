@@ -46,7 +46,7 @@ export class QuestionService {
   }
 
   /** GET Question by id. Will 404 if id not found */
-  getQuestion(id: number): Observable<Question> {
+  getQuestion(id: string): Observable<Question> {
     const url = `${this.questionsUrl}/${id}`;
     return this.http.get<Question>(url).pipe(
       tap(_ => this.log(`fetched question id=${id}`)),

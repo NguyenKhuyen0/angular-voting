@@ -25,9 +25,9 @@ export class VotingComponent implements OnInit {
   }
 
   getQuestion(): void {
-    const id = +this.route.snapshot.paramMap.get('id');
-    this.questionService.getQuestion(id)
-      .subscribe(question => {this.question = question; this.options = question.options});
+    // const id = +this.route.snapshot.paramMap.get('id');
+    // this.questionService.getQuestion(id)
+    //   .subscribe(question => {this.question = question; this.options = question.options});
   }
   
 //  save(): void {

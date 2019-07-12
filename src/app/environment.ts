@@ -14,6 +14,7 @@ export const environment = {
     NO_ADS: [2],
     optionsUrlAPI: 'http://idesign.local:8000/api/v1/options',
     questionsUrlAPI: 'http://idesign.local:8000/api/v1/questions',
-    votingUrlAPI: 'http://idesign.local:8000/api/v1/votings'
+    votingUrlAPI: 'http://idesign.local:8000/api/v1/votings',
+    voteUrl:  'http://idesign.local:8000/api/v1/vote',
 }
 

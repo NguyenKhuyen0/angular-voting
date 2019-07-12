@@ -17,7 +17,8 @@ export class TokenInterceptor implements HttpInterceptor {
         const authToken = this.kcService.getToken() || '';
         request = request.clone({
             setHeaders: {
-                'Authorization': 'Bearer ' + authToken
+                'Authorization': 'Bearer ' + authToken,
+
             }
         });
         return next.handle(request);

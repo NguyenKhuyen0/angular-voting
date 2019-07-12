@@ -10,22 +10,31 @@ import { Injectable } from '@angular/core';
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
+import { environment } from '../environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OptionService {
 
-  private optionsUrl = 'api/options';  // URL to web api
+  private optionsUrl = environment.optionsUrlAPI;  // URL to web api
 
   constructor(
     private http: HttpClient,
     private messageService: MessageService
   ) { }
+  vote(id : String, id_user : String): Observable<any> {
+    // console.log('update votes');
+    
+    return this.http.put(environment.voteUrl + '/' + id, {'id_user' : id_user}, httpOptions).pipe(
+      tap(_ => this.log(`vote`)),
+      catchError(this.handleError<any>('vote'))
+    );
+  }
   updateOption (option: Option): Observable<any> {
     // console.log('update votes');
     return this.http.put(this.optionsUrl, option, httpOptions).pipe(
-      tap(_ => this.log(`updated question id=${option.id}`)),
+      tap(_ => this.log(`updated question id=${option}`)),
       catchError(this.handleError<any>('updateQuestion'))
     );
   }

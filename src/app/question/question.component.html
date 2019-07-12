@@ -4,10 +4,10 @@
 
   <ul class="questions">
       <ng-template ngFor let-option [ngForOf]=" question.options" let-i="index">
-          <li  *ngIf="option.active">
+          <li>
               {{option.title}} <br>
               Votes: {{option.votes}}
-              <button (click)="vote( i ,option.votes)">Vote</button>
+              <button (click)="vote(option._id, id_user)">Vote</button>
         </li>
     </ng-template>
   </ul>

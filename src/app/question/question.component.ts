@@ -3,6 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 
 import { Question } from '../model/question';
+import { Option } from '../model/option';
+
 import { QuestionService } from './question.service';
 import { UserService } from '../user/user.service';
 import { OptionService } from '../option/option.service';
@@ -15,6 +17,8 @@ import { OptionService } from '../option/option.service';
 })
 export class QuestionComponent implements OnInit {
   @Input() question: Question;
+  @Input() id_user: String;
+
   constructor(
     private userService: UserService,
     private route: ActivatedRoute,
@@ -25,19 +29,19 @@ export class QuestionComponent implements OnInit {
 
   ngOnInit(): void {
     this.getQuestion();
-    // console.log( this.userService.kcO());
+    this.id_user = this.userService.userID();
    
   }
 
   getQuestion(): void {
-    const id = +this.route.snapshot.paramMap.get('id');
+    const id = this.route.snapshot.paramMap.get('id');
     this.questionService.getQuestion(id)
       .subscribe(question => {this.question = question;});
   }
 
-  vote(i, votes):void{
-    this.question.options[i].votes = votes + 1;
-    this.optionService.updateOption(this.question.options[i]);
+  vote(id : String, id_user : String):void{
+  
+    this.optionService.vote(id, id_user).subscribe();
   }
   sendRequest():void{
     console.log('AAAA')
