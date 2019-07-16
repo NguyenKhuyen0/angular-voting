@@ -2,8 +2,9 @@ import { Option } from './option';
 
 export class Question
 {
-    id : string;
-    question : string;
+    id : String;
+    id_voting : String;
+    question : String;
     options : Array<Option>;
-    active : boolean;
+    active : Boolean;
 }

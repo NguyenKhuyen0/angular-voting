@@ -16,5 +16,6 @@ export const environment = {
     questionsUrlAPI: 'http://idesign.local:8000/api/v1/questions',
     votingUrlAPI: 'http://idesign.local:8000/api/v1/votings',
     voteUrl:  'http://idesign.local:8000/api/v1/vote',
+    votesUrl: 'http://idesign.local:8000/api/v1/votes',
 }
 

@@ -24,13 +24,12 @@ export class OptionService {
     private messageService: MessageService
   ) { }
   vote(id : String, id_user : String): Observable<any> {
-    // console.log('update votes');
-    
     return this.http.put(environment.voteUrl + '/' + id, {'id_user' : id_user}, httpOptions).pipe(
       tap(_ => this.log(`vote`)),
       catchError(this.handleError<any>('vote'))
     );
   }
+
   updateOption (option: Option): Observable<any> {
     // console.log('update votes');
     return this.http.put(this.optionsUrl, option, httpOptions).pipe(
