@@ -1,46 +1,112 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Location } from '@angular/common';
+import {Component, OnInit, Input} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {Location} from '@angular/common';
 
-import { Question } from '../model/question';
-import { QuestionService } from '../question/question.service';
-import { Option } from '../model/option';
+import {Voting} from '../model/voting';
+import {VotingService} from './voting.service';
 
-@Component({
-  selector: 'app-voting',
-  templateUrl: './voting.component.html',
-  styleUrls: ['./voting.component.css']
-})
+import {Question} from '../model/question';
+import {QuestionService} from '../question/question.service';
+import {Option} from '../model/option';
+
+import {UserService} from '../user/user.service';
+import {VoteService} from '../vote.service';
+import {VotingRequest} from '../model/votingRequest';
+
+import {environment} from "../environment";
+
+@Component(
+    {selector: 'app-voting', templateUrl: './voting.component.html', styleUrls: ['./voting.component.css']}
+)
 export class VotingComponent implements OnInit {
-  @Input() question: Question;
-  @Input() options : Array<Option>;
-  constructor(
-    private route: ActivatedRoute,
-    private questionService: QuestionService,
-    private location: Location
-    ) { }
+    @Input()voting: Voting;
+    @Input()question: Question;
 
-  ngOnInit(): void {
-    this.getQuestion();
-  }
+    options = [];
+    urlMedia = environment.urlMedia;
 
-  getQuestion(): void {
-    // const id = +this.route.snapshot.paramMap.get('id');
-    // this.questionService.getQuestion(id)
-    //   .subscribe(question => {this.question = question; this.options = question.options});
-  }
-  
-//  save(): void {
-//     this.questionService.updateQuestion(this.question)
-//         .subscribe(() => this.goBack());
-//   }
-//   goBack(): void {
-//     this.location.back();
-//   }
-  vote(i, votes):void{
-    this.question.options[i].votes = votes + 1;
-    this.questionService.updateQuestion(this.question);
-    
-    // .subscribe(() => this.goBack());
-  }
+    is_login: false;
+    votingRequest: VotingRequest;
+
+    constructor(
+        private userService : UserService,
+        private route : ActivatedRoute,
+        private votingService : VotingService,
+        private location : Location,
+        private voteService : VoteService
+    ) {}
+
+    ngOnInit(): void {
+        this.getVoting();
+
+        this.votingRequest = new VotingRequest();
+        this.votingRequest.user_id = this
+        .userService
+        .userID();
+    }
+
+    getVoting() {
+        const id = this
+            .route
+            .snapshot
+            .paramMap
+            .get('id');
+        this
+            .votingService
+            .getVoting(id)
+            .subscribe(voting => {
+                if (voting) {
+                    this.voting = voting;
+                    this.question = this
+                        .voting
+                        .questions[0];
+                    console.log(this.voting);
+
+                    this.votingRequest.voting_id = voting['_id'];
+                }
+            });
+    }
+    vote(votes : VotingRequest): void {
+        if (this.votingRequest.user_id) {
+            this
+                .voteService
+                .vote(votes)
+                .subscribe(ms => {}); // xuất ra mã số dự thưởng của bạn là
+        } else {
+            this
+                .userService
+                .logIn();
+        }
+    }
+
+    chooseOption(id_option : String) {
+
+        if (this.options) {
+            this
+                .options
+                .push(id_option);
+        } else {
+            this.options = [id_option];
+        }
+        console.log("options ", this.options);
+    }
+    unChooseOption(id_option : String) {
+        if (this.options) {
+            var index = this
+                .options
+                .indexOf(id_option);
+            if (index > -1) {
+                this
+                    .options
+                    .splice(index, 1);
+            }
+        }
+    }
+
+    sendRequest() {
+        this.votingRequest.options = this.options;
+        console.log(this.votingRequest);
+        this.vote(this.votingRequest);
+    }
+
 }

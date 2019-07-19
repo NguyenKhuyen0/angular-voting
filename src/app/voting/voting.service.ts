@@ -4,8 +4,10 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 
-import { Question } from '../model/question';
+import { Voting } from '../model/voting';
 import { MessageService } from '../message.service';
+import { environment } from '../environment';
+
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -15,18 +17,19 @@ const httpOptions = {
 
 export class VotingService {
 
-  private questionsUrl = 'api/voting';  // URL to web api
+  private votingUrlAPI = environment.votingUrlAPI;  // URL to web api
+
 
   constructor(
     private http: HttpClient,
     private messageService: MessageService) { }
 
   /** GET Question by id. Will 404 if id not found */
-  getVoting(id: number): Observable<Question> {
-    const url = `${this.questionsUrl}/${id}`;
-    return this.http.get<Question>(url).pipe(
-      tap(_ => this.log(`fetched question id=${id}`)),
-      catchError(this.handleError<Question>(`getQuestion id=${id}`))
+  getVoting(id: string): Observable<Voting> {
+    const url = `${this.votingUrlAPI}/${id}`;
+    return this.http.get<Voting>(url).pipe(
+      tap(_ => this.log(`fetched voting id=${id}`)),
+      catchError(this.handleError<Voting>(`getVoting id=${id}`))
     );
   }
 

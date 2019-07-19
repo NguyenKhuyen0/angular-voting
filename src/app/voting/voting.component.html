@@ -1,3 +1,41 @@
-<p>
-  voting works!
-</p>
+<div class="voting-container">
+  <ul class="nav nav-pills flex-row-reverse voting-header">
+    <li class="nav-item">
+
+      <a   class="nav-link" (click)="userService.logIn()">Đăng nhập</a>
+      <a  *ngIf="is_login" class="nav-link" (click)="userService.logOut()">Đăng xuất</a>
+
+    </li>
+  </ul>
+  <div class="voting-content" data-simplebar>
+    <h1 *ngIf="voting">{{voting.title}}</h1>
+    <a href="#" class="btn btn-outline-primary my-3"><span class="ti-share"></span> Chia sẻ</a>
+    <p *ngIf="voting">{{voting.description}}</p>
+    <div class="alert alert-warning d-flex align-items-center my-3" role="alert">
+      <span class="ti-info-alt big-icon"></span> 
+      <span>Thời hạn tham gia bình chọn vòng loại bắt đầu từ <strong *ngIf="voting">{{voting.start_time}} đến {{voting.end_time}}.</strong> <span  *ngIf="is_login">Vui lòng đăng nhập để tham gia bình chọn.</span></span>
+    </div>
+    <div class="row" *ngIf="question">
+      <ng-template ngFor let-option [ngForOf]=" question.options" let-i="index">
+        <div class="col-lg-6 col-sm-12" >
+          <div class="media option-container my-3">
+            <img src="{{urlMedia + option.image}}" class="align-self-start mr-3" alt="...">
+            <div class="media-body">
+              <h5 class="mt-0">{{option.title}}</h5>
+              <p>{{option.content}}</p>
+              <input type="checkbox" name="pasta" id="check1" class="checkbox-input"/>
+             
+              <label *ngIf="options.indexOf(option._id) == -1; else elseBlock" for="check1" class="checkbox-label" (click)="chooseOption(option._id)">Chọn</label>
+              <ng-template #elseBlock><label for="check1" class="checkbox-label" (click)="unChooseOption(option._id)"><span class="ti-check"></span> Chọn</label></ng-template>
+
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+  <div class="btm-bar">
+    <button type="button" class="btn btn-primary btn-lg btn-block"  (click)="sendRequest()">Gửi bình chọn</button>
+
+  </div>
+</div>

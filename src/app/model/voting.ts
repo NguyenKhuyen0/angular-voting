@@ -7,7 +7,6 @@ export class Voting
     title : String;
     description: String;
     image: String;
-    options : Array<Question>;
-    voted_users: Array<VotedUser>;
+    questions : Array<Question>;
     active : Boolean;
 }

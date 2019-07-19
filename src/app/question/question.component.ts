@@ -50,12 +50,8 @@ export class QuestionComponent implements OnInit {
             .questionService
             .getQuestion(id)
             .subscribe(question => {
-                if(question)
-                {
-
-                    this.question = question;
-                    this.votingRequest.voting_id = this.question.voting_id;
-                }
+                this.question = question;
+                this.votingRequest.voting_id = this.question.voting_id;
                 console.log(question)
             });
     }
