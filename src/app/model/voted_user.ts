@@ -1,5 +1,5 @@
 export class VotedUser
 {
-    id_user : String;
+    user_id : String;
     maso: Number;
 }

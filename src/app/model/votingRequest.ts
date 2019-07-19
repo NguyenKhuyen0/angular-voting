@@ -2,7 +2,7 @@
 
 export class VotingRequest
 {
-    id_voting : String;
-    id_user: String;
+    voting_id : String;
+    user_id: String;
     options : Array<String>;
 }

@@ -15,9 +15,10 @@ import {from} from 'rxjs';
 )
 export class QuestionComponent implements OnInit {
     @Input()question: Question;
-    @Input()id_user: String;
+    @Input()user_id: String;
 
     votingRequest : VotingRequest;
+    options : Array<String>;
 
     constructor(
         private userService : UserService,
@@ -29,7 +30,11 @@ export class QuestionComponent implements OnInit {
 
     ngOnInit(): void {
         this.getQuestion();
-        this.votingRequest.id_user = this
+        console.log(this
+            .userService
+            .userID());
+        this.votingRequest = new VotingRequest();
+        this.votingRequest.user_id = this
         .userService
         .userID();
 
@@ -45,13 +50,18 @@ export class QuestionComponent implements OnInit {
             .questionService
             .getQuestion(id)
             .subscribe(question => {
-                this.question = question;
-                this.votingRequest.id_voting = this.question.id_voting;
+                if(question)
+                {
+
+                    this.question = question;
+                    this.votingRequest.voting_id = this.question.voting_id;
+                }
+                console.log(question)
             });
     }
 
     vote(votes : VotingRequest): void {
-        if (this.votingRequest.id_user) {
+        if (this.votingRequest.user_id) {
             this
                 .voteService
                 .vote(votes)
@@ -63,11 +73,24 @@ export class QuestionComponent implements OnInit {
         }
     }
 
-    createVotingRequest(id_option : String) {
-     
-      
+    chooseOption(id_option : String)
+    {
+        if(this.options)
+        {
+            this.options.push(id_option);
+        }
+        else
+        {
+            this.options = [id_option];
+        }
+        console.log("options ", this.options);
     }
 
-
+    sendRequest()
+    {
+        this.votingRequest.options = this.options;
+        console.log(this.votingRequest);
+        this.vote(this.votingRequest);
+    }
 
 }
