@@ -49,7 +49,7 @@
           </div>
           <div class="modal-body">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vulputate mi non ligula consectetur, id lacinia lectus fermentum.
-            <div class="alert alert-primary my-3 text-center" role="alert">
+            <div *ngIf="options.length" class="alert alert-primary my-3 text-center" role="alert">
                 <ng-template [ngIf]="maso">
                   <span>Mã số bình chọn của bạn là</span>
                   <h4>{{maso}}</h4>
