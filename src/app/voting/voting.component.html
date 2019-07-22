@@ -2,7 +2,7 @@
   <ul class="nav nav-pills flex-row-reverse voting-header">
     <li class="nav-item">
 
-      <a   class="nav-link" (click)="userService.logIn()">Đăng nhập</a>
+      <a  *ngIf="!is_login"  class="nav-link" (click)="userService.logIn()">Đăng nhập</a>
       <a  *ngIf="is_login" class="nav-link" (click)="userService.logOut()">Đăng xuất</a>
 
     </li>
@@ -16,7 +16,7 @@
       <span>Thời hạn tham gia bình chọn vòng loại bắt đầu từ <strong *ngIf="voting">{{voting.start_time}} đến {{voting.end_time}}.</strong> <span  *ngIf="is_login">Vui lòng đăng nhập để tham gia bình chọn.</span></span>
     </div>
     <div class="row" *ngIf="question">
-      <ng-template ngFor let-option [ngForOf]=" question.options" let-i="index">
+      <ng-template ngFor let-option [ngForOf]=" shuffle(question.options)" let-i="index">
         <div class="col-lg-6 col-sm-12" >
           <div class="media option-container my-3">
             <img src="{{urlMedia + option.image}}" class="align-self-start mr-3" alt="...">

@@ -25,7 +25,7 @@ export class VotingComponent implements OnInit {
     options = [];
     urlMedia = environment.urlMedia;
 
-    is_login: false;
+    is_login = false;
     votingRequest: VotingRequest;
 
     constructor(
@@ -43,6 +43,11 @@ export class VotingComponent implements OnInit {
         this.votingRequest.user_id = this
         .userService
         .userID();
+
+        if(this.votingRequest.user_id)
+        {
+            this.is_login = true;
+        }
     }
 
     getVoting() {
@@ -71,7 +76,9 @@ export class VotingComponent implements OnInit {
             this
                 .voteService
                 .vote(votes)
-                .subscribe(ms => {}); // xuất ra mã số dự thưởng của bạn là
+                .subscribe(ms => {
+                    console.log(ms);
+                }); // xuất ra mã số dự thưởng của bạn là
         } else {
             this
                 .userService
@@ -108,5 +115,24 @@ export class VotingComponent implements OnInit {
         console.log(this.votingRequest);
         this.vote(this.votingRequest);
     }
+     
+    shuffle(array: Array<any>) {
+        var currentIndex = array.length, temporaryValue, randomIndex;
+      
+        // While there remain elements to shuffle...
+        while (0 !== currentIndex) {
+      
+          // Pick a remaining element...
+          randomIndex = Math.floor(Math.random() * currentIndex);
+          currentIndex -= 1;
+      
+          // And swap it with the current element.
+          temporaryValue = array[currentIndex];
+          array[currentIndex] = array[randomIndex];
+          array[randomIndex] = temporaryValue;
+        }
+      
+        return array;
+      }
 
 }
