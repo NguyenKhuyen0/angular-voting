@@ -14,6 +14,7 @@ import {VoteService} from '../vote.service';
 import {VotingRequest} from '../model/votingRequest';
 
 import {environment} from "../environment";
+import { CookieService } from 'ngx-cookie-service';
 
 @Component(
     {selector: 'app-voting', templateUrl: './voting.component.html', styleUrls: ['./voting.component.css']}
@@ -24,6 +25,9 @@ export class VotingComponent implements OnInit {
 
     options = [];
     urlMedia = environment.urlMedia;
+    maso = false;
+    da_binh_chon = false;
+    timeout = false;
 
     is_login = false;
     votingRequest: VotingRequest;
@@ -32,8 +36,8 @@ export class VotingComponent implements OnInit {
         private userService : UserService,
         private route : ActivatedRoute,
         private votingService : VotingService,
-        private location : Location,
-        private voteService : VoteService
+        private voteService : VoteService,
+        private cookieService: CookieService
     ) {}
 
     ngOnInit(): void {
@@ -47,6 +51,10 @@ export class VotingComponent implements OnInit {
         if(this.votingRequest.user_id)
         {
             this.is_login = true;
+        }
+        if(this.cookieService.get('options'))
+        {
+            this.options =  JSON.parse(this.cookieService.get('options'));
         }
     }
 
@@ -66,18 +74,41 @@ export class VotingComponent implements OnInit {
                         .voting
                         .questions[0];
                     console.log(this.voting);
-
+                    if(this.voting.questions && voting.questions['0'])
+                    {
+                        this.voting.questions['0']['options'] =  this.shuffle(voting.questions[0]['options']);
+                   
+                    }
                     this.votingRequest.voting_id = voting['_id'];
                 }
             });
     }
     vote(votes : VotingRequest): void {
+        this.cookieService.set( 'options', JSON.stringify(this.options) );
         if (this.votingRequest.user_id) {
             this
                 .voteService
                 .vote(votes)
-                .subscribe(ms => {
-                    console.log(ms);
+                .subscribe(data => {
+                    if(data.maso)
+                    {
+                        this.maso = data.maso;
+                    }
+                    // if(data.da_binh_chon)
+                    console.log(data);
+                    if(data.da_binh_chon)
+                    {
+                        this.da_binh_chon = true;
+                    }
+                    if(data.timeout)
+                    {
+                        this.timeout = true;
+                    }
+              
+                    // console.log(data);
+                    // console.log(data[0]);
+                    // console.log( data.indexOf('da_binh_chon') >= 0);
+                    // console.log( this.da_binh_chon);
                 }); // xuất ra mã số dự thưởng của bạn là
         } else {
             this
@@ -134,5 +165,10 @@ export class VotingComponent implements OnInit {
       
         return array;
       }
+    
+    reset()
+    {
+        this.options = [];
+    }
 
 }

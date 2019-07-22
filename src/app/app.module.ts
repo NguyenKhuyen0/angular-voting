@@ -14,6 +14,7 @@ import { VotingComponent } from './voting/voting.component';
 import { AppRoutingModule } from './app-routing.module';
 import { UserService } from './user/user.service';
 import { TokenInterceptor } from './token.interceptor';
+import { CookieService } from 'ngx-cookie-service';
 
 
 
@@ -55,7 +56,8 @@ import { UserComponent } from './user/user.component';
       useClass: TokenInterceptor,
       multi: true
     },
-    UserService
+    UserService,
+    CookieService
   ],
   bootstrap: [AppComponent]
 })

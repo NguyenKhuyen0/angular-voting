@@ -137,9 +137,9 @@ h1 {
   top: 10px;
   opacity: 1;
 }
-.option-container! > .checkbox-input:checked {
+/* .option-container! > .checkbox-input:checked {
 	border: 1px solid #007AFF;
-}
+} */
 @media (max-width: 425px) {
 	.alert.d-flex, .media {
 		flex-direction: column!important;

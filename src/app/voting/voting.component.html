@@ -13,20 +13,19 @@
     <p *ngIf="voting">{{voting.description}}</p>
     <div class="alert alert-warning d-flex align-items-center my-3" role="alert">
       <span class="ti-info-alt big-icon"></span> 
-      <span>Thời hạn tham gia bình chọn vòng loại bắt đầu từ <strong *ngIf="voting">{{voting.start_time}} đến {{voting.end_time}}.</strong> <span  *ngIf="is_login">Vui lòng đăng nhập để tham gia bình chọn.</span></span>
+      <span>Thời hạn tham gia bình chọn vòng loại bắt đầu từ <strong *ngIf="voting">{{voting.start_time | date:'d/M/yyyy' }} đến {{voting.end_time | date:'d/M/yyyy' }}.</strong> <span  *ngIf="!is_login">Vui lòng đăng nhập để tham gia bình chọn.</span></span>
     </div>
     <div class="row" *ngIf="question">
-      <ng-template ngFor let-option [ngForOf]=" shuffle(question.options)" let-i="index">
+      <ng-template ngFor let-option [ngForOf]="question.options" let-i="index">
         <div class="col-lg-6 col-sm-12" >
           <div class="media option-container my-3">
             <img src="{{urlMedia + option.image}}" class="align-self-start mr-3" alt="...">
             <div class="media-body">
               <h5 class="mt-0">{{option.title}}</h5>
               <p>{{option.content}}</p>
-              <input type="checkbox" name="pasta" id="check1" class="checkbox-input"/>
-             
-              <label *ngIf="options.indexOf(option._id) == -1; else elseBlock" for="check1" class="checkbox-label" (click)="chooseOption(option._id)">Chọn</label>
-              <ng-template #elseBlock><label for="check1" class="checkbox-label" (click)="unChooseOption(option._id)"><span class="ti-check"></span> Chọn</label></ng-template>
+              <input type="checkbox" name="pasta" id="check{{i}}" class="checkbox-input" [checked]="options.indexOf(option._id) > -1 ? true : false" />
+              <label *ngIf="options.indexOf(option._id) == -1; else elseBlock" for="check{{i}}" class="checkbox-label" (click)="chooseOption(option._id)">Chọn</label>
+              <ng-template #elseBlock><label for="check{{i}}" class="checkbox-label" (click)="unChooseOption(option._id)"><span class="ti-check"></span> Chọn</label></ng-template>
 
             </div>
           </div>
@@ -35,7 +34,41 @@
     </div>
   </div>
   <div class="btm-bar">
-    <button type="button" class="btn btn-primary btn-lg btn-block"  (click)="sendRequest()">Gửi bình chọn</button>
-
+    <div class="row">
+      <div class="col-6"><button type="button" class="btn btn-outline-secondary btn-lg btn-block" (click)="reset()">Chọn lại</button></div>
+      <div class="col-6"><button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#submit" (click)="sendRequest()">Gửi bình chọn</button></div>
+    </div>
+    <div class="modal fade" id="submit" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title"><span class="ti-check-box"></span> Hoàn thành</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vulputate mi non ligula consectetur, id lacinia lectus fermentum.
+            <div class="alert alert-primary my-3 text-center" role="alert">
+                <ng-template [ngIf]="maso">
+                  <span>Mã số bình chọn của bạn là</span>
+                  <h4>{{maso}}</h4>
+                </ng-template>
+                <ng-template [ngIf]="da_binh_chon">
+                      Bạn đã bình chọn rồi!
+                </ng-template>
+                <ng-template [ngIf]="timeout">
+                    Đã hết thời gian bình chọn
+                </ng-template>
+      
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-link" data-dismiss="modal">Đóng</button>
+            <button type="button" class="btn btn-primary"><span class="ti-share"></span> Chia sẻ</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
