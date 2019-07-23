@@ -149,3 +149,7 @@ h1 {
 		margin-bottom: 10px;
 	}
 }
+.nav-link
+{
+	cursor: pointer;
+}

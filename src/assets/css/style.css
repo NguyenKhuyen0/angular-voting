@@ -527,3 +527,7 @@ html {
 		scroll-behavior: auto;
 	}
 }
+.nav-link
+{
+	cursor: pointer;
+}
