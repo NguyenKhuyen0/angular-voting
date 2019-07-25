@@ -18,5 +18,6 @@ export const environment = {
     voteUrl:  'http://voting.local:8000/api/v1/vote',
     votesUrl: 'http://voting.local:8000/api/v1/votes',
     urlMedia: 'http://voting.local:8000/images/',
+    urlParentWindow: 'http://voting.local:8000'
 }
 

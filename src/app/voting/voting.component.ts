@@ -15,6 +15,8 @@ import {VotingRequest} from '../model/votingRequest';
 
 import {environment} from "../environment";
 import { CookieService } from 'ngx-cookie-service';
+import { UserInfoService } from '../user-info.service';
+import { CustomKeyCloak } from '../model/custom_keycloack';
 
 @Component(
     {selector: 'app-voting', templateUrl: './voting.component.html', styleUrls: ['./voting.component.css']}
@@ -30,25 +32,33 @@ export class VotingComponent implements OnInit {
     timeout = false;
 
     is_login = false;
-    votingRequest: VotingRequest;
+    votingRequest = new VotingRequest();
     
 
+
     constructor(
-        private userService : UserService,
         private route : ActivatedRoute,
         private votingService : VotingService,
         private voteService : VoteService,
-        private cookieService: CookieService
+        private cookieService: CookieService,
+        private userInfoService: UserInfoService
     ) {}
+
 
     ngOnInit(): void {
 
         this.getVoting();
+    
+        this.userInfoService.keyCloakSubject.subscribe(customKeyCloak  => {
+
+            this.votingRequest.user_id = customKeyCloak.subject;
+            this.set_is_login(customKeyCloak);
+        })
+
 
         this.votingRequest = new VotingRequest();
-        this.votingRequest.user_id = this
-        .userService
-        .userID();
+
+        
 
         if(this.votingRequest.user_id)
         {
@@ -58,14 +68,9 @@ export class VotingComponent implements OnInit {
         {
             this.options =  JSON.parse(this.cookieService.get('options'));
         }
-        window.addEventListener('message', function(e) {
-   
-            if (e.origin == 'http://voting.local:8000') {
-                console.log(e.data);
-            } 
-        }, false);
+    
         
-        // console.log("window.parent",window.parent);
+
     }
 
     getVoting() {
@@ -95,7 +100,8 @@ export class VotingComponent implements OnInit {
     }
     vote(votes : VotingRequest): void {
         this.cookieService.set( 'options', JSON.stringify(this.options) );
-        if (this.votingRequest.user_id) {
+        console.log(this.is_login);
+        if (this.is_login) {
             this
                 .voteService
                 .vote(votes)
@@ -122,7 +128,7 @@ export class VotingComponent implements OnInit {
                 }); // xuất ra mã số dự thưởng của bạn là
         } else {
             this
-                .userService
+                .userInfoService
                 .logIn();
         }
     }
@@ -182,8 +188,26 @@ export class VotingComponent implements OnInit {
     }
     logIn()
     {
+  
         window.parent.postMessage({
-            'msg': 'Login'
+            'msg': 'login'
           }, "*");
     }
+    set_is_login(customKeyCloak : CustomKeyCloak)
+    {
+        if(!this.userInfoService.isTokenExpired(customKeyCloak))
+        {
+            if(customKeyCloak.authenticated)
+            {
+                this.is_login = true;
+            }
+        }
+    }
+    logOut()
+    {
+        window.parent.postMessage({
+            'msg': 'logout'
+          }, "*");
+    }
+
 }

@@ -5,22 +5,26 @@ import {
     HttpEvent,
     HttpInterceptor
 } from '@angular/common/http';
-import { KcService } from './initilizer';
+import { UserInfoService } from './user-info.service';
 import { Observable } from 'rxjs';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
 
-    constructor(private kcService: KcService) {}
+    constructor(private userInfoService: UserInfoService) {}
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        const authToken = this.kcService.getToken() || '';
-        request = request.clone({
-            setHeaders: {
-                'Authorization': 'Bearer ' + authToken,
-
-            }
-        });
+        if(this.userInfoService.customKeyCloak && this.userInfoService.customKeyCloak.token)
+        {
+            const authToken = this.userInfoService.customKeyCloak.token;
+    
+            request = request.clone({
+                setHeaders: {
+                    'Authorization': 'Bearer ' + authToken,
+    
+                }
+            });
+        }
         return next.handle(request);
     }
 }

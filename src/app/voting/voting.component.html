@@ -5,7 +5,7 @@
       <!--  (click)=" userService.logIn()" -->
       <a  *ngIf="!is_login"  class="nav-link" (click)="logIn()">Đăng nhập</a>
       <!-- <a target="_blank" href="https://id.360life.vn/auth/realms/master/account/">link đăng nhập</a> -->
-      <a  *ngIf="is_login" class="nav-link" (click)="userService.logOut()">Đăng xuất</a>
+      <a  *ngIf="is_login" class="nav-link" (click)="logOut()">Đăng xuất</a>
 
     </li>
   </ul>

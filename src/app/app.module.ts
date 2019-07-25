@@ -22,6 +22,8 @@ import { CookieService } from 'ngx-cookie-service';
 import { KeycloakService } from 'keycloak-angular';
 import { KcService, KcServiceInit } from "./initilizer";
 import { UserComponent } from './user/user.component';
+
+import { UserInfoService } from './user-info.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -57,7 +59,8 @@ import { UserComponent } from './user/user.component';
       multi: true
     },
     UserService,
-    CookieService
+    CookieService,
+    UserInfoService
   ],
   bootstrap: [AppComponent]
 })
