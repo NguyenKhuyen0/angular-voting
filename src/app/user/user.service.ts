@@ -73,7 +73,10 @@ export class UserService {
   }
 
   logIn() {
-    this.keycloakService.login()
+    // parent.login;
+    // console.log(this.kc);
+    this.keycloakService.login();
+    // console.log(environment.keycloak.url);
   }
 
   logOut() {

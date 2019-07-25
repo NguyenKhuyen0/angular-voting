@@ -31,6 +31,7 @@ export class VotingComponent implements OnInit {
 
     is_login = false;
     votingRequest: VotingRequest;
+    
 
     constructor(
         private userService : UserService,
@@ -41,6 +42,7 @@ export class VotingComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
+
         this.getVoting();
 
         this.votingRequest = new VotingRequest();
@@ -56,6 +58,14 @@ export class VotingComponent implements OnInit {
         {
             this.options =  JSON.parse(this.cookieService.get('options'));
         }
+        window.addEventListener('message', function(e) {
+   
+            if (e.origin == 'http://voting.local:8000') {
+                console.log(e.data);
+            } 
+        }, false);
+        
+        // console.log("window.parent",window.parent);
     }
 
     getVoting() {
@@ -170,5 +180,10 @@ export class VotingComponent implements OnInit {
     {
         this.options = [];
     }
-
+    logIn()
+    {
+        window.parent.postMessage({
+            'msg': 'Login'
+          }, "*");
+    }
 }
